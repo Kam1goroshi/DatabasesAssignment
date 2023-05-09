@@ -8,6 +8,7 @@
  */
 
 rootProject.name = "DatabasesAssignment"
+
 plugins {
     id("java")
 }
