@@ -28,6 +28,10 @@ replay_pid*
 
 # Ignore Gradle build output directory
 build
+bin
+
+#ignore vscode 
+.vscode
 
 # Credentials
-jdbc.properties
+src/main/resources/jdbc.properties

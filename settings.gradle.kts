@@ -7,47 +7,4 @@
  * in the user manual at https://docs.gradle.org/8.1.1/userguide/multi_project_builds.html
  */
 
-rootProject.name = "DatabasesAssignment"
-
-plugins {
-    id("java")
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation("mysql:mysql-connector-java:8.0.28")
-}
-
-val jdbcProperties = properties.load(project.file("jdbc.properties").inputStream())
-val jdbcUrl: String by project
-val jdbcUser: String by project
-val jdbcPassword: String by project
-
-tasks.withType<JavaCompile> {
-    options.encoding = "UTF-8"
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
-run {
-    environment("jdbc.url", jdbcUrl)
-    environment("jdbc.user", jdbcUser)
-    environment("jdbc.password", jdbcPassword)
-}
-
-configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-configure<JavaExec> {
-    classpath += sourceSets.main.get().output
-    systemProperties["jdbc.url"] = jdbcUrl
-    systemProperties["jdbc.user"] = jdbcUser
-    systemProperties["jdbc.password"] = jdbcPassword
-}
+rootProject.name = "DatabasesAssignment";
