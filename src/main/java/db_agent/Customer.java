@@ -52,9 +52,9 @@ public class Customer extends PhysicalEntity{
         return dob;
     }
 
-    public String getPrimaryKeyQuery(){
-        return "SELECT * FROM customers WHERE ID='"+ID+"';";
-    }
+    // public String getPrimaryKeyQuery(){
+    //     return "SELECT * FROM customers WHERE ID='"+ID+"';";
+    // }
 
     public String getInsertStatement(){
         return "INSERT INTO customers VALUES('" + ID + "','" + name + "','"+ phone_number + "','" + email + "','" + dob + "');";

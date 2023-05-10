@@ -1,7 +1,6 @@
 package db_agent;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 public abstract class Agent {
@@ -25,7 +24,7 @@ public abstract class Agent {
     }
 
     /** 
-     * Will implement things like setters to update physical entities later if you need them
+     * Will implement things like updates to physical entities later if needed
      * -Giorgos
      */
 }
