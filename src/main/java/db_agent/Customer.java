@@ -3,7 +3,10 @@ package db_agent;
 import java.sql.Date;
 import java.sql.ResultSet;
 
-public class Customer{
+public class Customer extends PhysicalEntity{
+    static private final String PK = "ID";
+    static private final String tablename ="customers";
+
     private String ID;
     private String name;
     private String phone_number;
@@ -49,9 +52,22 @@ public class Customer{
         return dob;
     }
 
-    public String geteValuesString(){
-        return "'" + ID + "','" + name + "','"+ phone_number + "','" + email + "','" + dob + "'";
+    public String getPrimaryKeyQuery(){
+        return "SELECT * FROM customers WHERE ID='"+ID+"';";
     }
+
+    public String getInsertStatement(){
+        return "INSERT INTO customers VALUES('" + ID + "','" + name + "','"+ phone_number + "','" + email + "','" + dob + "');";
+    }
+
+    public static String getPk() {
+        return PK;
+    }
+
+    public static String getTablename() {
+        return tablename;
+    }
+
     @Override
     public String toString(){
         return new StringBuilder("{ID:").append(ID).append(",name:").append(name).append(",phone:").append(phone_number)
