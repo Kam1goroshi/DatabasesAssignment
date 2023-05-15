@@ -1,6 +1,8 @@
 package db_agent;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -60,6 +62,27 @@ public class RoomsAgent extends Agent {
         return null;
     }
 
+    public ArrayList<Room> getAvailableRooms(Date date_start, Date date_end){
+        try {
+            Connection conn = DatabaseConnection.getConnection();
+            CallableStatement stmt = conn.prepareCall("{CALL getAvailableRooms('" + date_start + "', '" + date_end + "')}");
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Room> rooms = new ArrayList<>();
+            while (rs.next()) {
+                rooms.add(new Room(rs));
+            }
+            rs.close();
+            stmt.close();
+            conn.close();
+            return rooms;
+        } catch (Exception e) {
+            // handle the exception here
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    
     /**
      * Get rooms by size etc will be implemented later if needed
      * -Giorgos
