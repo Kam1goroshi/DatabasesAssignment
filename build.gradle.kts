@@ -5,7 +5,7 @@ plugins {
 }
 
 javafx {
-    version = "11.0.2"
+    version = "20.0.1";
     modules("javafx.controls", "javafx.fxml");
 }
 
