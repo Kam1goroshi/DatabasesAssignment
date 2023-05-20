@@ -19,6 +19,39 @@
 CREATE DATABASE IF NOT EXISTS `neapolis_hotel` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `neapolis_hotel`;
 
+-- Dumping structure for procedure neapolis_hotel.add_room_reservation
+DELIMITER //
+CREATE PROCEDURE `add_room_reservation`(
+	IN `room_id` INT,
+	IN `customer_id` VARCHAR(50),
+	IN `date_start` DATE,
+	IN `date_end` DATE,
+	IN `value` DOUBLE,
+	IN `status` INT,
+	IN `is_paid` TINYINT
+)
+BEGIN
+    DECLARE result TINYINT; 
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+    BEGIN
+        ROLLBACK;
+    END;
+
+    START TRANSACTION;
+
+
+    SELECT isRoomAvailable(room_id, date_start, date_end) INTO result;
+
+    IF result = TRUE THEN
+        INSERT INTO room_reservations (room_id, customer_id, date_start, date_end, value, STATUS, is_paid)
+        VALUES (room_id, customer_id, date_start, date_end, value, status, is_paid); -- Assuming end_date is the column name
+        COMMIT;
+    ELSE
+        ROLLBACK;
+    END IF;
+END//
+DELIMITER ;
+
 -- Dumping structure for table neapolis_hotel.customers
 CREATE TABLE IF NOT EXISTS `customers` (
   `ID` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Citizen ID',
@@ -32,11 +65,55 @@ CREATE TABLE IF NOT EXISTS `customers` (
   KEY `name` (`name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table neapolis_hotel.customers: ~2 rows (approximately)
-DELETE FROM `customers`;
-INSERT INTO `customers` (`ID`, `name`, `phone_number`, `email`, `dob`) VALUES
-	('BJ339081', 'Big Jacob', '+559965345223', 'bigJacob@jacobs.com', '1995-03-05'),
-	('BJ339933', 'Big Jacob', '+559965545223', 'bigJacob@hotmail.com', '1995-03-05');
+-- Data exporting was unselected.
+
+-- Dumping structure for procedure neapolis_hotel.getAvailableRooms
+DELIMITER //
+CREATE PROCEDURE `getAvailableRooms`(
+	IN `booking_start` DATE,
+	IN `booking_end` DATE
+)
+BEGIN
+SELECT rooms.*
+FROM rooms
+WHERE ID NOT IN (
+SELECT room_id AS ID
+FROM room_reservations
+WHERE (
+		room_reservations.status != 3 AND((
+ booking_start >= room_reservations.date_start AND booking_start <= room_reservations.date_end
+ 	) OR (
+ booking_end >= room_reservations.date_start AND booking_end <= room_reservations.date_end
+ 	))
+	)
+); END//
+DELIMITER ;
+
+-- Dumping structure for function neapolis_hotel.isRoomAvailable
+DELIMITER //
+CREATE FUNCTION `isRoomAvailable`(`room_id` INT,
+    `booking_start` DATE,
+    `booking_end` DATE
+) RETURNS tinyint(4)
+    DETERMINISTIC
+BEGIN
+    DECLARE result TINYINT;
+    
+    SET result = room_id NOT IN (
+        SELECT room_id AS ID
+        FROM room_reservations
+        WHERE (
+            room_reservations.status != 3 AND (
+                (booking_start >= room_reservations.date_start AND booking_start <= room_reservations.date_end)
+                OR
+                (booking_end >= room_reservations.date_start AND booking_end <= room_reservations.date_end)
+            )
+        )
+    );
+
+    RETURN result;
+END//
+DELIMITER ;
 
 -- Dumping structure for table neapolis_hotel.rooms
 CREATE TABLE IF NOT EXISTS `rooms` (
@@ -49,13 +126,9 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   UNIQUE KEY `room_number` (`room_number`),
   KEY `size` (`size`) USING BTREE,
   KEY `type` (`type`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table neapolis_hotel.rooms: ~2 rows (approximately)
-DELETE FROM `rooms`;
-INSERT INTO `rooms` (`ID`, `room_number`, `size`, `type`, `description`) VALUES
-	(3, 'A233', 3, 1, 'beautiful balcony view'),
-	(5, 'A222', 2, 1, 'A room that\'s unavailable for testing');
+-- Data exporting was unselected.
 
 -- Dumping structure for table neapolis_hotel.room_reservations
 CREATE TABLE IF NOT EXISTS `room_reservations` (
@@ -74,12 +147,9 @@ CREATE TABLE IF NOT EXISTS `room_reservations` (
   KEY `date_end` (`date_end`) USING HASH,
   CONSTRAINT `FK_room_reservations_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_room_reservations_rooms` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table neapolis_hotel.room_reservations: ~1 rows (approximately)
-DELETE FROM `room_reservations`;
-INSERT INTO `room_reservations` (`ID`, `room_id`, `customer_id`, `date_start`, `date_end`, `value`, `status`, `is_paid`) VALUES
-	(1, 5, 'BJ339081', '2023-05-15', '2023-06-15', 5, 5, 5);
+-- Data exporting was unselected.
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
