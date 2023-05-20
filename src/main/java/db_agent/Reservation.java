@@ -68,7 +68,7 @@ public class Reservation {
         return status;
     }
 
-    public boolean isIs_paid() {
+    public boolean isPaid() {
         return is_paid;
     }
 }
