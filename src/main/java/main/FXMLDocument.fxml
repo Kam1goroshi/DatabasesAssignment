@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="348.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXMLDocumentController">
+    <children>
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <Label layoutX="171.0" layoutY="103.0" text="Staff ID" />
+      <Label fx:id="label1" layoutX="125.0" layoutY="36.0" minHeight="16" minWidth="69" text="Hotel Management System">
+         <font>
+            <Font name="Microsoft Sans Serif" size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameField" layoutX="171.0" layoutY="126.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="passwordField" layoutX="171.0" layoutY="195.0" />
+      <Label layoutX="171.0" layoutY="174.0" text="Password" />
+      <Button fx:id="loginbtn" layoutX="173.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleLoginButtonAction" prefHeight="25.0" prefWidth="61.0" text="Login" />
+      <Button fx:id="exitbtn" layoutX="259.0" layoutY="242.0" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="25.0" prefWidth="61.0" text="Exit" />
+    </children>
+</AnchorPane>

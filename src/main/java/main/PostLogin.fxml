@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="348.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.PostLoginController">
+   <children>
+      <Label fx:id="label1" layoutX="135.0" layoutY="46.0" minHeight="16" minWidth="69" text="Hotel Management System">
+         <font>
+            <Font name="Microsoft Sans Serif" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="customersbtn" layoutX="32.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleCustomersButtonAction" prefHeight="37.0" prefWidth="92.0" text="Customers" />
+      <Button fx:id="roomsbtn" layoutX="32.0" layoutY="184.0" mnemonicParsing="false" onAction="#handleRoomsButtonAction" prefHeight="37.0" prefWidth="92.0" text="Rooms" />
+      <Button fx:id="reservationsbtn" layoutX="32.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleReservationsButtonAction" prefHeight="37.0" prefWidth="92.0" text="Reservations" />
+      <Button fx:id="logoutbtn" layoutX="280.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="25.0" prefWidth="69.0" text="Logout" />
+      <Label layoutX="195.0" layoutY="151.0" minHeight="16" minWidth="58.0" prefHeight="46.0" prefWidth="92.0" text="Hello," textAlignment="CENTER">
+         <font>
+            <Font size="34.0" />
+         </font>
+      </Label>
+      <Label fx:id="idlabel1" layoutX="287.0" layoutY="171.0" minHeight="16" minWidth="69">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Button fx:id="userinfobtn" layoutX="209.0" layoutY="233.0" mnemonicParsing="false" text="User Info" />
+      <Button fx:id="exitbtn" layoutX="396.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="25.0" prefWidth="64.0" text="Exit" />
+   </children>
+</AnchorPane>
