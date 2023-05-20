@@ -6,7 +6,7 @@ plugins {
 
 javafx {
     version = "11.0.2"
-    modules("javafx.controls");
+    modules("javafx.controls", "javafx.fxml");
 }
 
 repositories {
@@ -17,7 +17,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.1");
     implementation("com.google.guava:guava:31.1-jre");
     implementation("mysql:mysql-connector-java:8.0.26");
-    implementation("org.openjfx:javafx-controls:11.0.2")
+    implementation("org.openjfx:javafx-controls:11.0.2");
 }
 
 application {
@@ -33,7 +33,8 @@ tasks {
     shadowJar {
         mergeServiceFiles()
         dependencies {
-            include(dependency("mysql:mysql-connector-java"))
+            include(dependency("mysql:mysql-connector-java"));
+            include(dependency("org.openjfx:javafx-controls:11.0.2"));
         }
     }
 }
