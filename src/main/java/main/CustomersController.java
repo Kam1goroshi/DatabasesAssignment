@@ -60,7 +60,7 @@ public class CustomersController implements Initializable {
     @FXML
     private void handleReservationsButtonAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Reservations.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Reservations.fxml"));
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene reservationsScene = new Scene(root);
@@ -84,7 +84,7 @@ public class CustomersController implements Initializable {
     @FXML
     private void handleLogoutButtonAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXMLDocument.fxml"));
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene loginScene = new Scene(root);
@@ -121,7 +121,7 @@ public class CustomersController implements Initializable {
     @FXML
     private void handleHomeButtonAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PostLogin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostLogin.fxml"));
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene postLoginScene = new Scene(root);
@@ -142,7 +142,7 @@ public class CustomersController implements Initializable {
     @FXML
     private void handleRoomsButtonAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Rooms.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Rooms.fxml"));
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene roomsScene = new Scene(root);

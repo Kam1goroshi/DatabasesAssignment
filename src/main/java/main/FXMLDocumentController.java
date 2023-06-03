@@ -54,7 +54,7 @@ public class FXMLDocumentController extends PostLoginController implements Initi
 
     if (isAuthenticated) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("PostLogin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostLogin.fxml"));
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene postLoginScene = new Scene(root);

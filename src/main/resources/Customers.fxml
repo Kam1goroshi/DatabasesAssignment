@@ -8,18 +8,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="348.0" prefWidth="474.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CustomersController">
+<AnchorPane id="AnchorPane" prefHeight="417.0" prefWidth="593.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.CustomersController">
    <children>
-      <Label fx:id="label1" layoutX="215.0" layoutY="28.0" minHeight="16" minWidth="69" text="Customers">
+      <Label fx:id="label1" layoutX="263.0" layoutY="28.0" minHeight="16" minWidth="69" text="Customers">
          <font>
             <Font name="Microsoft Sans Serif" size="20.0" />
          </font>
       </Label>
       <Button layoutX="22.0" layoutY="174.0" mnemonicParsing="false" onAction="#handleReservationsButtonAction" prefHeight="37.0" prefWidth="92.0" text="Reservations" />
-      <TextField fx:id="searchinput" layoutX="189.0" layoutY="78.0" />
-      <Button fx:id="searchbtn" layoutX="347.0" layoutY="78.0" mnemonicParsing="false" onAction="#handleSearchButtonAction" text="Search" />
-      <Button fx:id="logoutbtn" layoutX="33.0" layoutY="284.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="25.0" prefWidth="69.0" text="Logout" />
-      <TableView fx:id="customerstable" editable="true" layoutX="125.0" layoutY="123.0" prefHeight="181.0" prefWidth="335.0">
+      <TextField fx:id="searchinput" layoutX="125.0" layoutY="92.0" />
+      <Button fx:id="searchbtn" layoutX="283.0" layoutY="92.0" mnemonicParsing="false" onAction="#handleSearchButtonAction" text="Search" />
+      <Button fx:id="logoutbtn" layoutX="22.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleLogoutButtonAction" prefHeight="25.0" prefWidth="69.0" text="Logout" />
+      <TableView fx:id="customerstable" editable="true" layoutX="125.0" layoutY="123.0" prefHeight="181.0" prefWidth="457.0">
          <columns>
             <TableColumn prefWidth="75.0" text="ID" />
             <TableColumn prefWidth="75.0" text="Name" />
@@ -30,11 +30,17 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="addbtn" layoutX="155.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleAddButtonAction" prefHeight="25.0" prefWidth="69.0" text="Add" />
-      <Button fx:id="editbtn" layoutX="258.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="25.0" prefWidth="69.0" text="Edit" />
-      <Button fx:id="deletebtn" layoutX="365.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="25.0" prefWidth="69.0" text="Delete" />
-      <Button fx:id="exitbtn" layoutX="33.0" layoutY="315.0" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="25.0" prefWidth="69.0" text="Exit" />
-      <Button fx:id="homebtn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleHomeButtonAction" prefHeight="25.0" prefWidth="69.0" text="Home" />
+      <Button fx:id="addbtn" layoutX="208.0" layoutY="378.0" mnemonicParsing="false" onAction="#handleAddButtonAction" prefHeight="25.0" prefWidth="69.0" text="Add" />
+      <Button fx:id="editbtn" layoutX="311.0" layoutY="378.0" mnemonicParsing="false" onAction="#handleEditButtonAction" prefHeight="25.0" prefWidth="69.0" text="Edit" />
+      <Button fx:id="deletebtn" layoutX="418.0" layoutY="378.0" mnemonicParsing="false" onAction="#handleDeleteButtonAction" prefHeight="25.0" prefWidth="69.0" text="Delete" />
+      <Button fx:id="exitbtn" layoutX="22.0" layoutY="378.0" mnemonicParsing="false" onAction="#handleExitButtonAction" prefHeight="25.0" prefWidth="69.0" text="Exit" />
+      <Button fx:id="homebtn" layoutX="22.0" layoutY="16.0" mnemonicParsing="false" onAction="#handleHomeButtonAction" prefHeight="25.0" prefWidth="69.0" text="Home" />
       <Button layoutX="22.0" layoutY="123.0" mnemonicParsing="false" onAction="#handleRoomsButtonAction" prefHeight="37.0" prefWidth="92.0" text="Rooms" />
+      <TextField fx:id="customerName" layoutX="146.0" layoutY="335.0" prefHeight="25.0" prefWidth="129.0" />
+      <TextField fx:id="customerDob" layoutX="309.0" layoutY="335.0" prefHeight="25.0" prefWidth="92.0" />
+      <TextField fx:id="customerPhone" layoutX="433.0" layoutY="335.0" prefHeight="25.0" prefWidth="92.0" />
+      <Label layoutX="146.0" layoutY="309.0" text="Name" />
+      <Label layoutX="311.0" layoutY="309.0" text="Date of Birth" />
+      <Label layoutX="433.0" layoutY="309.0" text="Phone No" />
    </children>
 </AnchorPane>

@@ -1,8 +1,0 @@
-#Example:
-#jdbc.url=jdbc:mysql://hostname:port/database
-#jdbc.user=username
-#jdbc.password=password
-
-jdbc.url=
-jdbc.user=
-jdbc.password=
