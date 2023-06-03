@@ -73,11 +73,13 @@ public class RoomsAgent extends Agent {
             while(rs.next()) {
                 rooms.add(new Room(rs));
             }
+            return rooms;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
     public ArrayList<Room> getAvailableRooms(Date date_start, Date date_end){
         try {
             Connection conn = DatabaseConnection.getConnection();
