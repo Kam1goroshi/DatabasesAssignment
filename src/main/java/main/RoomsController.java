@@ -24,6 +24,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 /**
@@ -85,7 +87,7 @@ public class RoomsController implements Initializable {
 
     @FXML
     private TextField searchinput;
-
+    private ObservableList<DataModel> filteredData;
 
     /**
      * Initializes the controller class.
@@ -95,7 +97,7 @@ public class RoomsController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        addbtn.setOnAction(this::handleAddButtonAction);
+        
         col1.setCellValueFactory(cellData -> cellData.getValue().value1Property());
         col2.setCellValueFactory(cellData -> cellData.getValue().value2Property());
         col3.setCellValueFactory(cellData -> cellData.getValue().value3Property());
@@ -103,17 +105,20 @@ public class RoomsController implements Initializable {
 
         // Initialize the data list
         data = FXCollections.observableArrayList();
+        filteredData = FXCollections.observableArrayList();
+        roomsTable.setItems(filteredData);
         
-        // Populate the data list with example data
-        //data.add(new DataModel("Value1-1", "Value2-1", "Value3-1", "Value4-1"));
-        //data.add(new DataModel("Value1-2", "Value2-2", "Value3-2", "Value4-2"));
-        //data.add(new DataModel("Value1-3", "Value2-3", "Value3-3", "Value4-3"));
-
-       
-        
-          
         // Set the data as the items for the TableView
         roomsTable.setItems(data);
+        
+        roomsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        if (newValue != null) {
+            roomNumber.setText(newValue.getValue2());
+            roomSize.setText(newValue.getValue3());
+            roomType.setText(newValue.getValue4());
+        }
+        });
+        
     }    
 
     @FXML
@@ -158,6 +163,27 @@ public class RoomsController implements Initializable {
 
     @FXML
     private void handleSearchButtonAction(ActionEvent event) {
+        String searchTerm = searchinput.getText().trim().toLowerCase();
+
+        filteredData.clear();
+
+        for (DataModel item : data) {
+            if (item.getValue1().toLowerCase().contains(searchTerm) ||
+            item.getValue2().toLowerCase().contains(searchTerm) ||
+            item.getValue3().toLowerCase().contains(searchTerm) ||
+            item.getValue4().toLowerCase().contains(searchTerm)) {
+            filteredData.add(item);
+            }
+        }
+            
+        if (!filteredData.isEmpty()) {
+            roomsTable.getSelectionModel().select(filteredData.get(0));
+            roomsTable.scrollTo(filteredData.get(0));
+        } else {
+            showAlert("No Results", "No matching results found.");
+        }
+        
+        clearTextFields();
     }
 
     @FXML
@@ -195,10 +221,27 @@ public class RoomsController implements Initializable {
 
     @FXML
     private void handleEditButtonAction(ActionEvent event) {
+        DataModel selectedData = roomsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedData != null) {
+            selectedData.setValue1(""); // Update value1 with the edited value
+            selectedData.setValue2(roomNumber.getText()); // Update value2 with the edited value
+            selectedData.setValue3(roomSize.getText()); // Update value3 with the edited value
+            selectedData.setValue4(roomType.getText()); // Update value3 with the edited value
+        }
+
+        clearTextFields();
     }
 
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
+        DataModel selectedData = roomsTable.getSelectionModel().getSelectedItem();
+
+        if (selectedData != null) {
+            data.remove(selectedData);
+        }
+
+        clearTextFields();
     }
 
     @FXML
@@ -231,7 +274,15 @@ public class RoomsController implements Initializable {
         roomSize.clear();
         roomType.clear();
     }
-;
+
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     
     public class DataModel {
         private StringProperty value1;
