@@ -171,14 +171,9 @@ public class RoomsController implements Initializable {
 
     @FXML
     private void handleAddButtonAction(ActionEvent event) {
-        String value1 = "";
-        String value2 = roomNumber.getText();
-        String value3 = roomSize.getText();
-        String value4 = roomType.getText();
-
-        DataModel newData = new DataModel(value1, value2, value3, value4);
-        data.add(newData);
-
+        roomsAgent.addEntity(new Room(roomNumber.getText(), Integer.parseInt(roomSize.getText()), Integer.parseInt(roomType.getText()), ""));
+        data.clear();
+        populateData();
         clearTextFields();
     }
 
