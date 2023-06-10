@@ -6,8 +6,12 @@ package main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
+
+import org.checkerframework.checker.units.qual.cd;
 
 import db_agent.Customer;
 import db_agent.CustomersAgent;
@@ -150,6 +154,7 @@ public class CustomersController implements Initializable {
         if (data.isEmpty()) {
             showAlert("No Results", "No matching results found.");
         }
+        clearTextFields();
     }
 
     @FXML
@@ -174,14 +179,37 @@ public class CustomersController implements Initializable {
 
     @FXML
     private void handleAddButtonAction(ActionEvent event) {
-        String value1 = customerID.getText();
-        String value2 = customerName.getText();
-        String value3 = customerDob.getText();
-        String value4 = customerPhone.getText();
-
-        DataModel newData = new DataModel(value1, value2, value3, value4);
-        data.add(newData);
-
+        String cID = customerID.getText();
+        String cName = customerName.getText();
+        String cEmail = "@.com";
+        Date cDob = null;
+        try{
+            cDob = Date.valueOf(customerDob.getText());
+        }catch(Exception e){
+            showAlert("Failed to register customer", "date of birth must be in sql format: YYYY-MM-DD, with proper values");
+            return;
+        }
+        String cPhone = customerPhone.getText();
+        boolean success = false;
+        
+        //Temporary solution until jfx is update to get email input. There might be collisions and this is programmatistically wrong.
+        //Generate random email
+        Random rand = new Random();
+        for(int i = 0; i < 10; i++){
+            char c = (char)('a' + rand.nextInt(26));
+            if(rand.nextBoolean())
+                c = Character.toUpperCase(c);
+            cEmail = c + cEmail;
+        }
+        
+        success = customersAgent.addEntity(new Customer(cID, cName, cPhone, cEmail, cDob));
+        if(!success){
+            showAlert("Failed to register customer", "validate the inputs or contact the administrator");
+        }else{
+            populateData();
+            customersTable.setItems(data);
+        }
+        System.out.println(cEmail);
         clearTextFields();
     }
 
