@@ -6,7 +6,11 @@ package main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import db_agent.Customer;
+import db_agent.CustomersAgent;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -68,7 +72,7 @@ public class CustomersController implements Initializable {
 
     @FXML
     private TableView<DataModel> customersTable;
-    
+
     @FXML
     private TableColumn<DataModel, String> col1;
 
@@ -80,9 +84,9 @@ public class CustomersController implements Initializable {
 
     @FXML
     private TableColumn<DataModel, String> col4;
-    
+
     private ObservableList<DataModel> data;
-    
+
     @FXML
     private Button searchbtn;
 
@@ -102,21 +106,22 @@ public class CustomersController implements Initializable {
 
         // Initialize the data list
         data = FXCollections.observableArrayList();
+        populateData();
         filteredData = FXCollections.observableArrayList();
         customersTable.setItems(filteredData);
-        
+
         // Set the data as the items for the TableView
         customersTable.setItems(data);
-        
+
         customersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        if (newValue != null) {
-            customerID.setText(newValue.getValue2());
-            customerName.setText(newValue.getValue2());
-            customerDob.setText(newValue.getValue3());
-            customerPhone.setText(newValue.getValue4());
-        }
+            if (newValue != null) {
+                customerID.setText(newValue.getValue2());
+                customerName.setText(newValue.getValue2());
+                customerDob.setText(newValue.getValue3());
+                customerPhone.setText(newValue.getValue4());
+            }
         });
-    }    
+    }
 
     @FXML
     private void handleReservationsButtonAction(ActionEvent event) {
@@ -125,7 +130,7 @@ public class CustomersController implements Initializable {
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene reservationsScene = new Scene(root);
-        
+
             // Get the stage from the current button's scene
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -146,20 +151,20 @@ public class CustomersController implements Initializable {
 
         for (DataModel item : data) {
             if (item.getValue1().toLowerCase().contains(searchTerm) ||
-            item.getValue2().toLowerCase().contains(searchTerm) ||
-            item.getValue3().toLowerCase().contains(searchTerm) ||
-            item.getValue4().toLowerCase().contains(searchTerm)) {
-            filteredData.add(item);
+                    item.getValue2().toLowerCase().contains(searchTerm) ||
+                    item.getValue3().toLowerCase().contains(searchTerm) ||
+                    item.getValue4().toLowerCase().contains(searchTerm)) {
+                filteredData.add(item);
             }
         }
-            
+
         if (!filteredData.isEmpty()) {
             customersTable.getSelectionModel().select(filteredData.get(0));
             customersTable.scrollTo(filteredData.get(0));
         } else {
             showAlert("No Results", "No matching results found.");
         }
-        
+
         clearTextFields();
     }
 
@@ -170,7 +175,7 @@ public class CustomersController implements Initializable {
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene loginScene = new Scene(root);
-        
+
             // Get the stage from the current button's scene
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -244,7 +249,7 @@ public class CustomersController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     @FXML
@@ -254,7 +259,7 @@ public class CustomersController implements Initializable {
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene roomsScene = new Scene(root);
-        
+
             // Get the stage from the current button's scene
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -266,14 +271,14 @@ public class CustomersController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private void clearTextFields() {
         customerID.clear();
         customerName.clear();
         customerDob.clear();
         customerPhone.clear();
     }
-    
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -281,70 +286,76 @@ public class CustomersController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-        
+
+    private void populateData(){
+        data.clear();
+        CustomersAgent agent = new CustomersAgent();
+        ArrayList<Customer> customers = agent.getCustomersByName("");
+        for(Customer customer : customers){
+            data.add(new DataModel(customer.getID(), customer.getName(), customer.getDob().toString(), customer.getPhone_number()));
+        }
+    }
+
     public class DataModel {
         private StringProperty value1;
         private StringProperty value2;
         private StringProperty value3;
         private StringProperty value4;
-    
-        
-    
+
         public DataModel(String value1, String value2, String value3, String value4) {
-           
 
             this.value1 = new SimpleStringProperty(value1);
             this.value2 = new SimpleStringProperty(value2);
             this.value3 = new SimpleStringProperty(value3);
             this.value4 = new SimpleStringProperty(value4);
-    }
+        }
 
-    public String getValue1() {
-        return value1.get();
-    }
+        public String getValue1() {
+            return value1.get();
+        }
 
-    public StringProperty value1Property() {
-        return value1;
-    }
+        public StringProperty value1Property() {
+            return value1;
+        }
 
-    public void setValue1(String value1) {
-        this.value1.set(value1);
-    }
+        public void setValue1(String value1) {
+            this.value1.set(value1);
+        }
 
-    public String getValue2() {
-        return value2.get();
-    }
+        public String getValue2() {
+            return value2.get();
+        }
 
-    public StringProperty value2Property() {
-        return value2;
-    }
+        public StringProperty value2Property() {
+            return value2;
+        }
 
-    public void setValue2(String value2) {
-        this.value2.set(value2);
-    }
+        public void setValue2(String value2) {
+            this.value2.set(value2);
+        }
 
-    public String getValue3() {
-        return value3.get();
-    }
+        public String getValue3() {
+            return value3.get();
+        }
 
-    public StringProperty value3Property() {
-        return value3;
-    }
+        public StringProperty value3Property() {
+            return value3;
+        }
 
-    public void setValue3(String value3) {
-        this.value3.set(value3);
-    }
+        public void setValue3(String value3) {
+            this.value3.set(value3);
+        }
 
-    public String getValue4() {
-        return value4.get();
-    }
+        public String getValue4() {
+            return value4.get();
+        }
 
-    public StringProperty value4Property() {
-        return value4;
-    }
+        public StringProperty value4Property() {
+            return value4;
+        }
 
-    public void setValue4(String value4) {
-        this.value4.set(value4);
-    }
+        public void setValue4(String value4) {
+            this.value4.set(value4);
+        }
     }
 }
