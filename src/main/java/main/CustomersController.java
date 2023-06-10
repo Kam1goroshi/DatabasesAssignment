@@ -115,10 +115,10 @@ public class CustomersController implements Initializable {
 
         customersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                customerID.setText(newValue.getValue2());
-                customerName.setText(newValue.getValue2());
-                customerDob.setText(newValue.getValue3());
-                customerPhone.setText(newValue.getValue4());
+                customerID.setText(newValue.getCustomerName());
+                customerName.setText(newValue.getCustomerName());
+                customerDob.setText(newValue.getCustomerDob());
+                customerPhone.setText(newValue.getCustomerPhoneNumber());
             }
         });
     }
@@ -150,10 +150,10 @@ public class CustomersController implements Initializable {
         filteredData.clear();
 
         for (DataModel item : data) {
-            if (item.getValue1().toLowerCase().contains(searchTerm) ||
-                    item.getValue2().toLowerCase().contains(searchTerm) ||
-                    item.getValue3().toLowerCase().contains(searchTerm) ||
-                    item.getValue4().toLowerCase().contains(searchTerm)) {
+            if (item.getCustomerID().toLowerCase().contains(searchTerm) ||
+                    item.getCustomerName().toLowerCase().contains(searchTerm) ||
+                    item.getCustomerDob().toLowerCase().contains(searchTerm) ||
+                    item.getCustomerPhoneNumber().toLowerCase().contains(searchTerm)) {
                 filteredData.add(item);
             }
         }
@@ -292,70 +292,77 @@ public class CustomersController implements Initializable {
         CustomersAgent agent = new CustomersAgent();
         ArrayList<Customer> customers = agent.getCustomersByName("");
         for(Customer customer : customers){
-            data.add(new DataModel(customer.getID(), customer.getName(), customer.getDob().toString(), customer.getPhone_number()));
+            data.add(new DataModel(customer));
         }
     }
 
     public class DataModel {
-        private StringProperty value1;
-        private StringProperty value2;
-        private StringProperty value3;
-        private StringProperty value4;
+        private StringProperty customerID;
+        private StringProperty customerName;
+        private StringProperty customerDob;
+        private StringProperty customerPhoneNumber;
+
+        public DataModel(Customer customer){
+            this.customerID = new SimpleStringProperty(customer.getID());
+            this.customerName = new SimpleStringProperty(customer.getName());
+            this.customerDob = new SimpleStringProperty(customer.getDob().toString());
+            this.customerPhoneNumber = new SimpleStringProperty(customer.getPhoneNumber());
+        }
 
         public DataModel(String value1, String value2, String value3, String value4) {
 
-            this.value1 = new SimpleStringProperty(value1);
-            this.value2 = new SimpleStringProperty(value2);
-            this.value3 = new SimpleStringProperty(value3);
-            this.value4 = new SimpleStringProperty(value4);
+            this.customerID = new SimpleStringProperty(value1);
+            this.customerName = new SimpleStringProperty(value2);
+            this.customerDob = new SimpleStringProperty(value3);
+            this.customerPhoneNumber = new SimpleStringProperty(value4);
         }
 
-        public String getValue1() {
-            return value1.get();
+        public String getCustomerID() {
+            return customerID.get();
         }
 
         public StringProperty value1Property() {
-            return value1;
+            return customerID;
         }
 
         public void setValue1(String value1) {
-            this.value1.set(value1);
+            this.customerID.set(value1);
         }
 
-        public String getValue2() {
-            return value2.get();
+        public String getCustomerName() {
+            return customerName.get();
         }
 
         public StringProperty value2Property() {
-            return value2;
+            return customerName;
         }
 
         public void setValue2(String value2) {
-            this.value2.set(value2);
+            this.customerName.set(value2);
         }
 
-        public String getValue3() {
-            return value3.get();
+        public String getCustomerDob() {
+            return customerDob.get();
         }
 
         public StringProperty value3Property() {
-            return value3;
+            return customerDob;
         }
 
         public void setValue3(String value3) {
-            this.value3.set(value3);
+            this.customerDob.set(value3);
         }
 
-        public String getValue4() {
-            return value4.get();
+        public String getCustomerPhoneNumber() {
+            return customerPhoneNumber.get();
         }
 
         public StringProperty value4Property() {
-            return value4;
+            return customerPhoneNumber;
         }
 
         public void setValue4(String value4) {
-            this.value4.set(value4);
+            this.customerPhoneNumber.set(value4);
         }
     }
 }
