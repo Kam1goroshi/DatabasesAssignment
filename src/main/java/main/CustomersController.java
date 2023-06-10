@@ -37,62 +37,44 @@ import javafx.stage.Stage;
  */
 public class CustomersController implements Initializable {
 
+    private ObservableList<DataModel> data;
+    private CustomersAgent customersAgent = new CustomersAgent();
     @FXML
     private Button addbtn;
-
     @FXML
     private TextField customerDob;
-
     @FXML
     private TextField customerID;
-
     @FXML
     private TextField customerName;
-
     @FXML
     private TextField customerPhone;
-
     @FXML
     private Button deletebtn;
-
     @FXML
     private Button editbtn;
-
     @FXML
     private Button exitbtn;
-
     @FXML
     private Button homebtn;
-
     @FXML
     private Label label1;
-
     @FXML
     private Button logoutbtn;
-
     @FXML
     private TableView<DataModel> customersTable;
-
     @FXML
     private TableColumn<DataModel, String> col1;
-
     @FXML
     private TableColumn<DataModel, String> col2;
-
     @FXML
     private TableColumn<DataModel, String> col3;
-
     @FXML
     private TableColumn<DataModel, String> col4;
-
-    private ObservableList<DataModel> data;
-
     @FXML
     private Button searchbtn;
-
     @FXML
     private TextField searchinput;
-    private ObservableList<DataModel> filteredData;
 
     /**
      * Initializes the controller class.
@@ -148,24 +130,24 @@ public class CustomersController implements Initializable {
         // filteredData.clear();
 
         // for (DataModel item : data) {
-        //     if (item.getCustomerID().toLowerCase().contains(searchTerm) ||
-        //             item.getCustomerName().toLowerCase().contains(searchTerm) ||
-        //             item.getCustomerDob().toLowerCase().contains(searchTerm) ||
-        //             item.getCustomerPhoneNumber().toLowerCase().contains(searchTerm)) {
-        //         filteredData.add(item);
-        //     }
+        // if (item.getCustomerID().toLowerCase().contains(searchTerm) ||
+        // item.getCustomerName().toLowerCase().contains(searchTerm) ||
+        // item.getCustomerDob().toLowerCase().contains(searchTerm) ||
+        // item.getCustomerPhoneNumber().toLowerCase().contains(searchTerm)) {
+        // filteredData.add(item);
+        // }
         // }
 
         // if (!filteredData.isEmpty()) {
-        //     customersTable.getSelectionModel().select(filteredData.get(0));
-        //     customersTable.scrollTo(filteredData.get(0));
+        // customersTable.getSelectionModel().select(filteredData.get(0));
+        // customersTable.scrollTo(filteredData.get(0));
         // } else {
-        //     showAlert("No Results", "No matching results found.");
+        // showAlert("No Results", "No matching results found.");
         // }
 
         populateData();
         customersTable.setItems(data);
-        if(data.isEmpty()){
+        if (data.isEmpty()) {
             showAlert("No Results", "No matching results found.");
         }
     }
@@ -289,11 +271,10 @@ public class CustomersController implements Initializable {
         alert.showAndWait();
     }
 
-    private void populateData(){
+    private void populateData() {
         data.clear();
-        CustomersAgent agent = new CustomersAgent();
-        ArrayList<Customer> customers = agent.getCustomersByName(searchinput.getText().trim());
-        for(Customer customer : customers){
+        ArrayList<Customer> customers = customersAgent.getCustomersByName(searchinput.getText().trim());
+        for (Customer customer : customers) {
             data.add(new DataModel(customer));
         }
     }
@@ -304,7 +285,7 @@ public class CustomersController implements Initializable {
         private StringProperty customerDob;
         private StringProperty customerPhoneNumber;
 
-        public DataModel(Customer customer){
+        public DataModel(Customer customer) {
             this.customerID = new SimpleStringProperty(customer.getID());
             this.customerName = new SimpleStringProperty(customer.getName());
             this.customerDob = new SimpleStringProperty(customer.getDob().toString());
