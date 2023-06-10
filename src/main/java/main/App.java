@@ -1,14 +1,5 @@
 package main;
 
-import java.sql.Date;
-
-import db_agent.CustomersAgent;
-import db_agent.Reservation;
-import db_agent.ReservationsAgent;
-import db_agent.Room;
-import db_agent.RoomsAgent;
-
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

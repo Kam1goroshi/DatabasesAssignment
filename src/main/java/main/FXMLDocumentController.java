@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,7 +21,7 @@ import javafx.stage.Stage;
  *
  * @author Pc
  */
-public class FXMLDocumentController extends PostLoginController implements Initializable {
+public class FXMLDocumentController extends PostLoginController {
     
     @FXML
     private Label label;
