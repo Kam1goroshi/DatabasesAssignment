@@ -140,21 +140,12 @@ public class RoomsController implements Initializable {
 
     @FXML
     private void handleSearchButtonAction(ActionEvent event) {
-        String searchTerm = searchinput.getText().trim().toLowerCase();
         data.clear();
-        for (DataModel item : data) {
-            if (item.getRoomID().toLowerCase().contains(searchTerm) ||
-                    item.getRoomNumber().toLowerCase().contains(searchTerm) ||
-                    item.getRoomSize().toLowerCase().contains(searchTerm) ||
-                    item.getRoomType().toLowerCase().contains(searchTerm)) {
-                data.add(item);
-            }
-        }
-
+        populateData();
+        roomsTable.setItems(data);
         if (data.isEmpty()) {
             showAlert("No Results", "No matching results found.");
         }
-
         clearTextFields();
     }
 
@@ -242,7 +233,7 @@ public class RoomsController implements Initializable {
     }
 
     private void populateData() {
-        ArrayList<Room> rooms = roomsAgent.getAllRooms();
+        ArrayList<Room> rooms = roomsAgent.getRoomsByNumber(searchinput.getText().trim());
         for (Room room : rooms) {
             data.add(new DataModel(room));
         }
