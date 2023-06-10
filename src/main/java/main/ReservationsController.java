@@ -7,6 +7,8 @@ package main;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import db_agent.ReservationsAgent;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -33,83 +35,59 @@ import javafx.stage.Stage;
  */
 public class ReservationsController implements Initializable {
 
+    private ObservableList<DataModel> data;
+    ReservationsAgent reservationsAgent = new ReservationsAgent();
     @FXML
     private Button addbtn;
-
     @FXML
     private TextField checkIn;
-
     @FXML
     private TextField checkOut;
-
     @FXML
     private TextField customerID;
-
     @FXML
     private Button deletebtn;
-
     @FXML
     private Button editbtn;
-
     @FXML
     private Button exitbtn;
-
     @FXML
     private Button homebtn;
-
     @FXML
     private Label label1;
-
     @FXML
     private Button logoutbtn;
-
     @FXML
     private TextField resPaid;
-
     @FXML
     private TextField resPrice;
-
     @FXML
     private TextField resStatus;
-
     @FXML
     private TextField roomID;
-
     @FXML
-    private TableView<DataModel> reservationsTable;
-    
+    private TableView<DataModel> reservationsTable;    
     @FXML
     private TableColumn<DataModel, String> col1;
-
     @FXML
     private TableColumn<DataModel, String> col2;
-
     @FXML
     private TableColumn<DataModel, String> col3;
-
     @FXML
-    private TableColumn<DataModel, String> col4;
-    
+    private TableColumn<DataModel, String> col4;    
     @FXML
     private TableColumn<DataModel, String> col5;
-
     @FXML
     private TableColumn<DataModel, String> col6;
-
     @FXML
-    private TableColumn<DataModel, String> col7;
-    
+    private TableColumn<DataModel, String> col7;    
     @FXML
-    private TableColumn<DataModel, String> col8;
-    
-    private ObservableList<DataModel> data;
-    
+    private TableColumn<DataModel, String> col8;   
     @FXML
     private Button searchbtn;
-
     @FXML
     private TextField searchinput;
-    private ObservableList<DataModel> filteredData;
+
     /**
      * Initializes the controller class.
      */
@@ -126,10 +104,8 @@ public class ReservationsController implements Initializable {
 
         // Initialize the data list
         data = FXCollections.observableArrayList();
-        filteredData = FXCollections.observableArrayList();
-        reservationsTable.setItems(filteredData);
-        
-        // Set the data as the items for the TableView
+        data.clear();
+        populateData();
         reservationsTable.setItems(data);
         
         reservationsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -144,6 +120,10 @@ public class ReservationsController implements Initializable {
         }
         });
     }    
+
+    private void populateData() {
+        
+    }
 
     @FXML
     private void handleCustomersButtonAction(ActionEvent event) {
@@ -169,25 +149,9 @@ public class ReservationsController implements Initializable {
     private void handleSearchButtonAction(ActionEvent event) {
         String searchTerm = searchinput.getText().trim().toLowerCase();
 
-        filteredData.clear();
-
-        for (DataModel item : data) {
-            if (item.getValue1().toLowerCase().contains(searchTerm) ||
-            item.getValue2().toLowerCase().contains(searchTerm) ||
-            item.getValue3().toLowerCase().contains(searchTerm) ||
-            item.getValue4().toLowerCase().contains(searchTerm) ||
-            item.getValue5().toLowerCase().contains(searchTerm) ||
-            item.getValue6().toLowerCase().contains(searchTerm) ||
-            item.getValue7().toLowerCase().contains(searchTerm) ||
-            item.getValue8().toLowerCase().contains(searchTerm)) {
-            filteredData.add(item);
-            }
-        }
+        data.clear();
             
-        if (!filteredData.isEmpty()) {
-            reservationsTable.getSelectionModel().select(filteredData.get(0));
-            reservationsTable.scrollTo(filteredData.get(0));
-        } else {
+        if (data.isEmpty()) {
             showAlert("No Results", "No matching results found.");
         }
     }
