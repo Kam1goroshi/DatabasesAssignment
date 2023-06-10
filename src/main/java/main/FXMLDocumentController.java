@@ -22,12 +22,11 @@ import javafx.stage.Stage;
  * @author Pc
  */
 public class FXMLDocumentController extends PostLoginController {
-    
+
     @FXML
     private Label label;
     @FXML
     private Label label1;
-    private TextField searchinput;
     @FXML
     private Button exitbtn;
     @FXML
@@ -36,59 +35,51 @@ public class FXMLDocumentController extends PostLoginController {
     private TextField passwordField;
     @FXML
     private Button loginbtn;
-    
-       
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
     private void handleLoginButtonAction(ActionEvent event) {
-    String username = usernameField.getText();
-    String password = passwordField.getText();
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-    // Perform authentication logic here
-    boolean isAuthenticated = authenticate(username, password);
+        // Perform authentication logic here
+        boolean isAuthenticated = authenticate(username, password);
 
-    if (isAuthenticated) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostLogin.fxml"));
-            Parent root = loader.load();
-            // Create a new scene with the loaded FXML file
-            Scene postLoginScene = new Scene(root);
+        if (isAuthenticated) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/PostLogin.fxml"));
+                Parent root = loader.load();
+                // Create a new scene with the loaded FXML file
+                Scene postLoginScene = new Scene(root);
 
-            // Get the stage from the current button's scene
-            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                // Get the stage from the current button's scene
+                Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
-            // Set the new scene on the stage
-            stage.setScene(postLoginScene);
-            stage.setTitle("Post Login");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+                // Set the new scene on the stage
+                stage.setScene(postLoginScene);
+                stage.setTitle("Post Login");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Show an error message or display an error label
+            System.out.println("Login failed");
         }
-    } else {
-        // Show an error message or display an error label
-        System.out.println("Login failed");
+        username_label.setText(usernameField.getText());
     }
-    username_label.setText(usernameField.getText());
-}
 
+    private boolean authenticate(String username, String password) {
+        // Example implementation: hardcoding the username and password for
+        // demonstration purposes
+        String validUsername = "admin";
+        String validPassword = "admin";
 
-private boolean authenticate(String username, String password) {
-    // Example implementation: hardcoding the username and password for demonstration purposes
-    String validUsername = "admin";
-    String validPassword = "admin";
-
-    return username.equals(validUsername) && password.equals(validPassword);
-}
-
-
-    private void handleSearchButtonAction(ActionEvent event) {
-        String searchTerm = searchinput.getText();
-        System.out.println("Search Works");
-        label.setText("Search Works");
+        return username.equals(validUsername) && password.equals(validPassword);
     }
 
     @FXML
@@ -96,19 +87,4 @@ private boolean authenticate(String username, String password) {
         System.exit(0);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 }

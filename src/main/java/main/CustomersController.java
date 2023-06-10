@@ -107,8 +107,6 @@ public class CustomersController implements Initializable {
         // Initialize the data list
         data = FXCollections.observableArrayList();
         populateData();
-        filteredData = FXCollections.observableArrayList();
-        customersTable.setItems(filteredData);
 
         // Set the data as the items for the TableView
         customersTable.setItems(data);
@@ -145,26 +143,28 @@ public class CustomersController implements Initializable {
 
     @FXML
     private void handleSearchButtonAction(ActionEvent event) {
-        String searchTerm = searchinput.getText().trim().toLowerCase();
+        // String searchTerm = searchinput.getText().trim().toLowerCase();
 
-        filteredData.clear();
+        // filteredData.clear();
 
-        for (DataModel item : data) {
-            if (item.getCustomerID().toLowerCase().contains(searchTerm) ||
-                    item.getCustomerName().toLowerCase().contains(searchTerm) ||
-                    item.getCustomerDob().toLowerCase().contains(searchTerm) ||
-                    item.getCustomerPhoneNumber().toLowerCase().contains(searchTerm)) {
-                filteredData.add(item);
-            }
-        }
+        // for (DataModel item : data) {
+        //     if (item.getCustomerID().toLowerCase().contains(searchTerm) ||
+        //             item.getCustomerName().toLowerCase().contains(searchTerm) ||
+        //             item.getCustomerDob().toLowerCase().contains(searchTerm) ||
+        //             item.getCustomerPhoneNumber().toLowerCase().contains(searchTerm)) {
+        //         filteredData.add(item);
+        //     }
+        // }
 
-        if (!filteredData.isEmpty()) {
-            customersTable.getSelectionModel().select(filteredData.get(0));
-            customersTable.scrollTo(filteredData.get(0));
-        } else {
-            showAlert("No Results", "No matching results found.");
-        }
+        // if (!filteredData.isEmpty()) {
+        //     customersTable.getSelectionModel().select(filteredData.get(0));
+        //     customersTable.scrollTo(filteredData.get(0));
+        // } else {
+        //     showAlert("No Results", "No matching results found.");
+        // }
 
+        populateData();
+        customersTable.setItems(data);
         clearTextFields();
     }
 
@@ -290,7 +290,7 @@ public class CustomersController implements Initializable {
     private void populateData(){
         data.clear();
         CustomersAgent agent = new CustomersAgent();
-        ArrayList<Customer> customers = agent.getCustomersByName("");
+        ArrayList<Customer> customers = agent.getCustomersByName(searchinput.getText().trim());
         for(Customer customer : customers){
             data.add(new DataModel(customer));
         }
