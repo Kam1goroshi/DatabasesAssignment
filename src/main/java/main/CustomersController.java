@@ -164,11 +164,10 @@ public class CustomersController implements Initializable {
         // }
 
         populateData();
+        customersTable.setItems(data);
         if(data.isEmpty()){
             showAlert("No Results", "No matching results found.");
         }
-        customersTable.setItems(data);
-        clearTextFields();
     }
 
     @FXML
