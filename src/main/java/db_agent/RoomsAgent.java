@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.checkerframework.checker.units.qual.A;
+
 public class RoomsAgent extends Agent {
     /**
      * Adds object to DB
@@ -45,16 +47,17 @@ public class RoomsAgent extends Agent {
      * @param ID room number
      * @return A new room object if given ID is found or null
      */
-    public Room getRoomByNumber(String number) {
+    public ArrayList<Room> getRoomsByNumber(String number) {
         try {
             Connection conn = DatabaseConnection.getConnection();
             Statement stmt = conn.createStatement();
-            ResultSet result = stmt.executeQuery("SELECT * FROM rooms WHERE room_number = '" + number + "';");
-            if (result.next()) {
-                Room room = new Room(result);
-                conn.close();
-                return room;
+            ResultSet rs = stmt.executeQuery("SELECT * FROM rooms WHERE room_number LIKE \"%" + number + "%\";");
+            ArrayList<Room> rooms = new ArrayList<>();
+            while(rs.next()) {
+                rooms.add(new Room(rs));
             }
+            conn.close();
+            return rooms;
         } catch (Exception e) {
             e.printStackTrace();
         }
