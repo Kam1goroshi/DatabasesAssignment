@@ -40,7 +40,7 @@ public class Customer extends PhysicalEntity{
         return name;
     }
 
-    public String getPhone_number() {
+    public String getPhoneNumber() {
         return phone_number;
     }
 
