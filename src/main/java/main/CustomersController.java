@@ -164,6 +164,9 @@ public class CustomersController implements Initializable {
         // }
 
         populateData();
+        if(data.isEmpty()){
+            showAlert("No Results", "No matching results found.");
+        }
         customersTable.setItems(data);
         clearTextFields();
     }
