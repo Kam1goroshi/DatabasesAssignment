@@ -2,6 +2,9 @@ package db_agent;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class ReservationsAgent{
     public boolean addReservation(Reservation reservation){
@@ -25,5 +28,30 @@ public class ReservationsAgent{
             return false;
         }
         return true;
+    }
+
+    /**
+     * 
+     * @param searchTerm
+     * @return Reservation ArrayList where searchTerm is a substring of either customer's ID or room number in database
+     */
+    public ArrayList<Reservation> getReservations(String searchTerm){
+        ArrayList<Reservation> reservations = new ArrayList<>();
+        try{
+            Connection conn = DatabaseConnection.getConnection();
+            StringBuilder sb = new StringBuilder("SELECT * FROM room_reservations WHERE");
+            sb.append(" customer_id LIKE \"%").append(searchTerm);
+            sb.append("\"% OR room_id LIKE \"%").append(searchTerm);
+            sb.append("\"% OR ID LIKE \"%").append(searchTerm).append("\"%");
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sb.toString());
+            while(rs.next()){
+                reservations.add(new Reservation(rs));
+            }
+            conn.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return reservations;
     }
 }
