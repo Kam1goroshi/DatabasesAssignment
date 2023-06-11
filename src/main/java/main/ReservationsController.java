@@ -6,6 +6,7 @@ package main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import db_agent.Reservation;
@@ -124,7 +125,10 @@ public class ReservationsController implements Initializable {
     }
 
     private void populateData() {
-
+        ArrayList<Reservation> reservations = reservationsAgent.getReservations(searchinput.getText().trim());
+        for (Reservation reservation : reservations) {
+            data.add(new DataModel(reservation));
+        }
     }
 
     @FXML
@@ -310,7 +314,7 @@ public class ReservationsController implements Initializable {
             this.rIsPaid = new SimpleStringProperty(rIsPaid);
         }
 
-        public DataModel(Reservation reservation){
+        public DataModel(Reservation reservation) {
             this.rId = new SimpleStringProperty(Integer.toString(reservation.getReservation_id()));
             this.rRoomId = new SimpleStringProperty(Integer.toString(reservation.getRoom_id()));
             this.rCustomerId = new SimpleStringProperty(reservation.getCustomer_id().toString());
