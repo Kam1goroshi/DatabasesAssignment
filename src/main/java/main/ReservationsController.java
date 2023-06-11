@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import db_agent.Reservation;
 import db_agent.ReservationsAgent;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -19,6 +20,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart.Data;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -66,7 +68,7 @@ public class ReservationsController implements Initializable {
     @FXML
     private TextField roomID;
     @FXML
-    private TableView<DataModel> reservationsTable;    
+    private TableView<DataModel> reservationsTable;
     @FXML
     private TableColumn<DataModel, String> col1;
     @FXML
@@ -74,15 +76,15 @@ public class ReservationsController implements Initializable {
     @FXML
     private TableColumn<DataModel, String> col3;
     @FXML
-    private TableColumn<DataModel, String> col4;    
+    private TableColumn<DataModel, String> col4;
     @FXML
     private TableColumn<DataModel, String> col5;
     @FXML
     private TableColumn<DataModel, String> col6;
     @FXML
-    private TableColumn<DataModel, String> col7;    
+    private TableColumn<DataModel, String> col7;
     @FXML
-    private TableColumn<DataModel, String> col8;   
+    private TableColumn<DataModel, String> col8;
     @FXML
     private Button searchbtn;
     @FXML
@@ -107,22 +109,22 @@ public class ReservationsController implements Initializable {
         data.clear();
         populateData();
         reservationsTable.setItems(data);
-        
+
         reservationsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-        if (newValue != null) {
-            customerID.setText(newValue.getValue2());
-            roomID.setText(newValue.getValue2());
-            checkIn.setText(newValue.getValue2());
-            checkOut.setText(newValue.getValue2());
-            resPrice.setText(newValue.getValue2());
-            resStatus.setText(newValue.getValue2());
-            resPaid.setText(newValue.getValue2());
-        }
+            if (newValue != null) {
+                customerID.setText(newValue.getrRoomId());
+                roomID.setText(newValue.getrRoomId());
+                checkIn.setText(newValue.getrRoomId());
+                checkOut.setText(newValue.getrRoomId());
+                resPrice.setText(newValue.getrRoomId());
+                resStatus.setText(newValue.getrRoomId());
+                resPaid.setText(newValue.getrRoomId());
+            }
         });
-    }    
+    }
 
     private void populateData() {
-        
+
     }
 
     @FXML
@@ -132,7 +134,7 @@ public class ReservationsController implements Initializable {
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene customersScene = new Scene(root);
-        
+
             // Get the stage from the current button's scene
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -150,7 +152,8 @@ public class ReservationsController implements Initializable {
         String searchTerm = searchinput.getText().trim().toLowerCase();
 
         data.clear();
-            
+        // will get reservations based on room number or customer ID sorted by newest
+        // first
         if (data.isEmpty()) {
             showAlert("No Results", "No matching results found.");
         }
@@ -163,7 +166,7 @@ public class ReservationsController implements Initializable {
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene loginScene = new Scene(root);
-        
+
             // Get the stage from the current button's scene
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -254,7 +257,7 @@ public class ReservationsController implements Initializable {
             Parent root = loader.load();
             // Create a new scene with the loaded FXML file
             Scene roomsScene = new Scene(root);
-        
+
             // Get the stage from the current button's scene
             Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 
@@ -266,7 +269,7 @@ public class ReservationsController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private void clearTextFields() {
         customerID.clear();
         roomID.clear();
@@ -277,7 +280,6 @@ public class ReservationsController implements Initializable {
         resPaid.clear();
     }
 
-
     private void showAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle(title);
@@ -285,122 +287,134 @@ public class ReservationsController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    
+
     public class DataModel {
-        private StringProperty value1;
-        private StringProperty value2;
-        private StringProperty value3;
-        private StringProperty value4;
-        private StringProperty value5;
-        private StringProperty value6;
-        private StringProperty value7;
-        private StringProperty value8;
-    
-        
-    
-        public DataModel(String value1, String value2, String value3, String value4, String value5, String value6, String value7, String value8) {
-           
+        private StringProperty rId;
+        private StringProperty rRoomId;
+        private StringProperty rCustomerId;
+        private StringProperty rDateStart;
+        private StringProperty rDateEnd;
+        private StringProperty rValue;
+        private StringProperty rStatus;
+        private StringProperty rIsPaid;
 
-            this.value1 = new SimpleStringProperty(value1);
-            this.value2 = new SimpleStringProperty(value2);
-            this.value3 = new SimpleStringProperty(value3);
-            this.value4 = new SimpleStringProperty(value4);
-            this.value5 = new SimpleStringProperty(value5);
-            this.value6 = new SimpleStringProperty(value6);
-            this.value7 = new SimpleStringProperty(value7);
-            this.value8 = new SimpleStringProperty(value8);
-    }
+        public DataModel(String rId, String rRoomId, String rCustomerId, String rDateStart, String rDateEnd,
+                String rValue, String rStatus, String rIsPaid) {
+            this.rId = new SimpleStringProperty(rId);
+            this.rRoomId = new SimpleStringProperty(rRoomId);
+            this.rCustomerId = new SimpleStringProperty(rCustomerId);
+            this.rDateStart = new SimpleStringProperty(rDateStart);
+            this.rDateEnd = new SimpleStringProperty(rDateEnd);
+            this.rValue = new SimpleStringProperty(rValue);
+            this.rStatus = new SimpleStringProperty(rStatus);
+            this.rIsPaid = new SimpleStringProperty(rIsPaid);
+        }
 
-    public String getValue1() {
-        return value1.get();
-    }
+        public DataModel(Reservation reservation){
+            this.rId = new SimpleStringProperty(Integer.toString(reservation.getReservation_id()));
+            this.rRoomId = new SimpleStringProperty(Integer.toString(reservation.getRoom_id()));
+            this.rCustomerId = new SimpleStringProperty(reservation.getCustomer_id().toString());
+            this.rDateStart = new SimpleStringProperty(reservation.getDate_start().toString());
+            this.rDateEnd = new SimpleStringProperty(reservation.getDate_end().toString());
+            this.rValue = new SimpleStringProperty(Double.toString(reservation.getValue()));
+            this.rStatus = new SimpleStringProperty(Integer.toString(reservation.getStatus().ordinal()));
+            this.rIsPaid = new SimpleStringProperty(Boolean.toString(reservation.isPaid()));
+        }
 
-    public StringProperty value1Property() {
-        return value1;
-    }
+        public String getrId() {
+            return rId.get();
+        }
 
-    public void setValue1(String value1) {
-        this.value1.set(value1);
-    }
+        public StringProperty value1Property() {
+            return rId;
+        }
 
-    public String getValue2() {
-        return value2.get();
-    }
+        public void setValue1(String value1) {
+            this.rId.set(value1);
+        }
 
-    public StringProperty value2Property() {
-        return value2;
-    }
+        public String getrRoomId() {
+            return rRoomId.get();
+        }
 
-    public void setValue2(String value2) {
-        this.value2.set(value2);
-    }
+        public StringProperty value2Property() {
+            return rRoomId;
+        }
 
-    public String getValue3() {
-        return value3.get();
-    }
+        public void setValue2(String value2) {
+            this.rRoomId.set(value2);
+        }
 
-    public StringProperty value3Property() {
-        return value3;
-    }
+        public String getrCustomerId() {
+            return rCustomerId.get();
+        }
 
-    public void setValue3(String value3) {
-        this.value3.set(value3);
-    }
+        public StringProperty value3Property() {
+            return rCustomerId;
+        }
 
-    public String getValue4() {
-        return value4.get();
-    }
+        public void setValue3(String value3) {
+            this.rCustomerId.set(value3);
+        }
 
-    public StringProperty value4Property() {
-        return value4;
-    }
+        public String getrDateStart() {
+            return rDateStart.get();
+        }
 
-    public void setValue4(String value4) {
-        this.value4.set(value4);
-    }
-    public String getValue5() {
-        return value5.get();
-    }
+        public StringProperty value4Property() {
+            return rDateStart;
+        }
 
-    public StringProperty value5Property() {
-        return value5;
-    }
+        public void setValue4(String value4) {
+            this.rDateStart.set(value4);
+        }
 
-    public void setValue5(String value5) {
-        this.value5.set(value5);
-    }
-    public String getValue6() {
-        return value6.get();
-    }
+        public String getrDateEnd() {
+            return rDateEnd.get();
+        }
 
-    public StringProperty value6Property() {
-        return value6;
-    }
+        public StringProperty value5Property() {
+            return rDateEnd;
+        }
 
-    public void setValue6(String value6) {
-        this.value6.set(value6);
-    }
-    public String getValue7() {
-        return value7.get();
-    }
+        public void setValue5(String value5) {
+            this.rDateEnd.set(value5);
+        }
 
-    public StringProperty value7Property() {
-        return value7;
-    }
+        public String getrValue() {
+            return rValue.get();
+        }
 
-    public void setValue7(String value7) {
-        this.value7.set(value7);
-    }
-    public String getValue8() {
-        return value8.get();
-    }
+        public StringProperty value6Property() {
+            return rValue;
+        }
 
-    public StringProperty value8Property() {
-        return value8;
-    }
+        public void setValue6(String value6) {
+            this.rValue.set(value6);
+        }
 
-    public void setValue8(String value8) {
-        this.value8.set(value8);
-    }
+        public String getrStatus() {
+            return rStatus.get();
+        }
+
+        public StringProperty value7Property() {
+            return rStatus;
+        }
+
+        public void setValue7(String value7) {
+            this.rStatus.set(value7);
+        }
+
+        public String getrIsPaid() {
+            return rIsPaid.get();
+        }
+
+        public StringProperty value8Property() {
+            return rIsPaid;
+        }
+
+        public void setValue8(String value8) {
+            this.rIsPaid.set(value8);
+        }
     }
 }
