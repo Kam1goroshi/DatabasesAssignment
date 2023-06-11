@@ -41,8 +41,8 @@ public class ReservationsAgent{
             Connection conn = DatabaseConnection.getConnection();
             StringBuilder sb = new StringBuilder("SELECT * FROM room_reservations WHERE");
             sb.append(" customer_id LIKE \"%").append(searchTerm);
-            sb.append("\"% OR room_id LIKE \"%").append(searchTerm);
-            sb.append("\"% OR ID LIKE \"%").append(searchTerm).append("\"%");
+            sb.append("%\" OR room_id LIKE \"%").append(searchTerm);
+            sb.append("%\" OR ID LIKE \"%").append(searchTerm).append("%\"");
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery(sb.toString());
             while(rs.next()){
