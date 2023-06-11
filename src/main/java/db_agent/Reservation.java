@@ -1,12 +1,14 @@
 package db_agent;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 
 public class Reservation {
     public static enum Status {
         RESERVED,
         INHABITATED,
-        CLOSED // finished|over
+        CLOSED, // finished|over
+        PROBLEMATIC
     }
 
     private int reservation_id = -1; // Will be auto increment from db
@@ -27,6 +29,19 @@ public class Reservation {
         this.value = value;
         this.status = status;
         this.is_paid = is_paid;
+    }
+
+    public Reservation(ResultSet rs) throws Exception {
+        this.reservation_id = rs.getInt("ID");
+        this.room_id = rs.getInt("room_id");
+        this.customer_id = rs.getString("customer_id");
+        this.date_start = rs.getDate("date_start");
+        this.date_end = rs.getDate("date_end");
+        this.value = rs.getDouble("value");
+        int temp = rs.getInt("status");
+        this.status = temp >= 0 && temp <= 3 ? Status.values()[temp] : Status.values()[3];
+        this.status = Status.values()[rs.getInt("status")];
+        this.is_paid = rs.getBoolean("is_paid");
     }
 
     public Reservation(Reservation r) {
