@@ -28,11 +28,10 @@ public abstract class Agent {
      * @param rowId
      * @return true if atleast 1 row was affected
      */
-    public boolean deleteCustomer(String rowId){
-        if()
+    public boolean deleteRow(String rowId, String tableName){
         try{
             Connection conn = DatabaseConnection.getConnection();
-            int affectedRowsCount = conn.createStatement().executeUpdate("DELETE FROM customers WHERE ID=\"" + rowId + "\"");
+            int affectedRowsCount = conn.createStatement().executeUpdate("DELETE FROM +" + tableName + " WHERE ID=\"" + rowId + "\"");
             conn.close();
             if(affectedRowsCount > 0)
                 return true;
