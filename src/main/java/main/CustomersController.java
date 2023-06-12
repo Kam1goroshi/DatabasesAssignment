@@ -230,7 +230,7 @@ public class CustomersController implements Initializable {
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
         DataModel selectedData = customersTable.getSelectionModel().getSelectedItem();
-
+        customersAgent.deleteCustomer(selectedData.getCustomerID());
         if (selectedData != null) {
             data.remove(selectedData);
         }
