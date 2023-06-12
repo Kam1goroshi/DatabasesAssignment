@@ -31,7 +31,7 @@ public abstract class Agent {
     public static boolean deleteRow(String rowId, String tableName){
         try{
             Connection conn = DatabaseConnection.getConnection();
-            int affectedRowsCount = conn.createStatement().executeUpdate("DELETE FROM +" + tableName + " WHERE ID=\"" + rowId + "\"");
+            int affectedRowsCount = conn.createStatement().executeUpdate("DELETE FROM " + tableName + " WHERE ID=\"" + rowId + "\"");
             conn.close();
             if(affectedRowsCount > 0)
                 return true;
