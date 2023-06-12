@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `rooms` (
   UNIQUE KEY `room_number` (`room_number`),
   KEY `size` (`size`) USING BTREE,
   KEY `type` (`type`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -141,12 +141,12 @@ CREATE TABLE IF NOT EXISTS `room_reservations` (
   `status` int(1) NOT NULL DEFAULT 0 COMMENT '0: Reserved, 1: checked-in, 2: checked-out, 3: past',
   `is_paid` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Boolean value, is reservation paid?',
   PRIMARY KEY (`ID`) USING BTREE,
-  KEY `FK_room_reservations_customers` (`customer_id`),
-  KEY `FK_room_reservations_rooms` (`room_id`),
   KEY `date_start` (`date_start`) USING HASH,
   KEY `date_end` (`date_end`) USING HASH,
-  CONSTRAINT `FK_room_reservations_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `FK_room_reservations_rooms` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_room_reservations_customers` (`customer_id`),
+  KEY `FK_room_reservations_rooms` (`room_id`),
+  CONSTRAINT `FK_room_reservations_customers` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_room_reservations_rooms` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Data exporting was unselected.
