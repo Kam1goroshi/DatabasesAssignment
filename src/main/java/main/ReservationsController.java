@@ -153,9 +153,8 @@ public class ReservationsController implements Initializable {
 
     @FXML
     private void handleSearchButtonAction(ActionEvent event) {
-        String searchTerm = searchinput.getText().trim().toLowerCase();
-
         data.clear();
+        populateData();
         // will get reservations based on room number or customer ID sorted by newest
         // first
         if (data.isEmpty()) {
