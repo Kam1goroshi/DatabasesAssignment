@@ -99,7 +99,7 @@ public class CustomersController implements Initializable {
 
         customersTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                customerID.setText(newValue.getCustomerName());
+                customerID.setText(newValue.getCustomerID());
                 customerName.setText(newValue.getCustomerName());
                 customerDob.setText(newValue.getCustomerDob());
                 customerPhone.setText(newValue.getCustomerPhoneNumber());
