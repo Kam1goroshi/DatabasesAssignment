@@ -54,4 +54,14 @@ public class ReservationsAgent{
         }
         return reservations;
     }
+
+    /**
+     * Deletes a reservation row from the database
+     * @param reservationId row id
+     * @return true if affected rows > 1
+     */
+    public boolean deleteReservation(String reservationId){
+        //kind of a hack way to do this due to lack of time
+        return Agent.deleteRow(reservationId, "room_reservations");
+    }
 }

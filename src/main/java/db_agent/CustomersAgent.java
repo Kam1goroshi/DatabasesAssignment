@@ -76,17 +76,6 @@ public class CustomersAgent extends Agent {
      * @return true if atleast 1 row was affected
      */
     public boolean deleteCustomer(String customerId){
-        try{
-            Connection conn = DatabaseConnection.getConnection();
-            int affectedRowsCount = conn.createStatement().executeUpdate("DELETE FROM customers WHERE ID=\"" + customerId + "\"");
-            conn.close();
-            if(affectedRowsCount > 0)
-                return true;
-            else
-                return false;
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return false;
+        return deleteRow(customerId, "customers");
     }
 }

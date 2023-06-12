@@ -28,7 +28,7 @@ public abstract class Agent {
      * @param rowId
      * @return true if atleast 1 row was affected
      */
-    public boolean deleteRow(String rowId, String tableName){
+    public static boolean deleteRow(String rowId, String tableName){
         try{
             Connection conn = DatabaseConnection.getConnection();
             int affectedRowsCount = conn.createStatement().executeUpdate("DELETE FROM +" + tableName + " WHERE ID=\"" + rowId + "\"");

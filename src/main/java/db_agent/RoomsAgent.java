@@ -64,25 +64,6 @@ public class RoomsAgent extends Agent {
         return null;
     }
 
-    /**
-     * @return ArrayList<Room> with all rooms in database regardless of status
-     */
-    public ArrayList<Room> getAllRooms(){
-        try {
-            Connection conn = DatabaseConnection.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM rooms;");
-            ArrayList<Room> rooms = new ArrayList<>();
-            while(rs.next()) {
-                rooms.add(new Room(rs));
-            }
-            return rooms;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
     public ArrayList<Room> getAvailableRooms(Date date_start, Date date_end){
         try {
             Connection conn = DatabaseConnection.getConnection();
@@ -103,9 +84,12 @@ public class RoomsAgent extends Agent {
         return null;
     }
 
-    
     /**
-     * Get rooms by size etc will be implemented later if needed
-     * -Giorgos
+     * Deletes a room row from the database
+     * @param reservationId row id
+     * @return true if affected rows > 1
      */
+    public boolean deleteRoom(String reservationId){
+        return deleteRow(reservationId, "rooms");
+    }
 }
