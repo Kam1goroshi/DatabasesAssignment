@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javafx.scene.chart.PieChart.Data;
+
 public class CustomersAgent extends Agent {
 
     /**
@@ -66,5 +68,21 @@ public class CustomersAgent extends Agent {
             e.printStackTrace();
         }
         return list;
+    }
+
+    /**
+     * Deletes a customer from the database
+     * @return false if there was an exception
+     */
+    public boolean deleteCustomer(){
+        try{
+            Connection conn = DatabaseConnection.getConnection();
+            conn.createStatement().executeQuery("DELETE FROM customers WHERE ID=\"test4\"");
+            conn.close();
+            return true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }
