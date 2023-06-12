@@ -72,12 +72,13 @@ public class CustomersAgent extends Agent {
 
     /**
      * Deletes a customer from the database
+     * @param customerId
      * @return false if there was an exception
      */
-    public boolean deleteCustomer(){
+    public boolean deleteCustomer(String customerId){
         try{
             Connection conn = DatabaseConnection.getConnection();
-            conn.createStatement().executeQuery("DELETE FROM customers WHERE ID=\"test4\"");
+            conn.createStatement().executeQuery("DELETE FROM customers WHERE ID=\"" + customerId + "\"");
             conn.close();
             return true;
         }catch(Exception e){
