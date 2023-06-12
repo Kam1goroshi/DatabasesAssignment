@@ -6,11 +6,13 @@ package main;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import db_agent.Reservation;
 import db_agent.ReservationsAgent;
+import db_agent.Reservation.Status;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -113,13 +115,13 @@ public class ReservationsController implements Initializable {
 
         reservationsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                customerID.setText(newValue.getrRoomId());
+                customerID.setText(newValue.getrCustomerId());
                 roomID.setText(newValue.getrRoomId());
-                checkIn.setText(newValue.getrRoomId());
-                checkOut.setText(newValue.getrRoomId());
-                resPrice.setText(newValue.getrRoomId());
-                resStatus.setText(newValue.getrRoomId());
-                resPaid.setText(newValue.getrRoomId());
+                checkIn.setText(newValue.getrDateStart());
+                checkOut.setText(newValue.getrDateEnd());
+                resPrice.setText(newValue.getrValue());
+                resStatus.setText(newValue.getrStatus());
+                resPaid.setText(newValue.getrIsPaid());
             }
         });
     }
@@ -184,18 +186,34 @@ public class ReservationsController implements Initializable {
 
     @FXML
     private void handleAddButtonAction(ActionEvent event) {
-        String value1 = "";
-        String value2 = customerID.getText();
-        String value3 = roomID.getText();
-        String value4 = checkIn.getText();
-        String value5 = checkOut.getText();
-        String value6 = resPrice.getText();
-        String value7 = resStatus.getText();
-        String value8 = resPaid.getText();
+        String _customerID;
+        int _roomID;
+        Date _checkIn;
+        Date _checkOut;
+        double _value;
+        Status _status;
+        boolean _is_paid;
+        try {
+            _customerID = customerID.getText();
+            _roomID = Integer.parseInt(roomID.getText());
+            _checkIn = Date.valueOf(checkIn.getText());
+            _checkOut = Date.valueOf(checkOut.getText());
+            _value = Double.parseDouble(resPrice.getText());
+            int tempStatus = Integer.parseInt(resStatus.getText());
+            _status = tempStatus >= 0 && tempStatus <= 3 ? Status.values()[tempStatus] : Status.values()[3];
+            _is_paid = Boolean.parseBoolean(resPaid.getText());
+            try {
+                reservationsAgent.addReservation(
+                        new Reservation(_roomID, _customerID, _checkIn, _checkOut, _value, _status, _is_paid));
+            } catch (Exception e) {
+                showAlert("Error while adding reservation", "");
+            }
+        } catch (Exception e) {
+            showAlert("Error while reading inputs", "please validate data types and values");
+        }
 
-        DataModel newData = new DataModel(value1, value2, value3, value4, value5, value6, value7, value8);
-        data.add(newData);
-
+        data.clear();
+        populateData();
         clearTextFields();
     }
 
@@ -220,7 +238,7 @@ public class ReservationsController implements Initializable {
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
         DataModel selectedData = reservationsTable.getSelectionModel().getSelectedItem();
-
+        reservationsAgent.deleteReservation(selectedData.getrId());
         if (selectedData != null) {
             data.remove(selectedData);
         }
@@ -341,7 +359,7 @@ public class ReservationsController implements Initializable {
         }
 
         public StringProperty value2Property() {
-            return rRoomId;
+            return rCustomerId;
         }
 
         public void setValue2(String value2) {
@@ -353,7 +371,7 @@ public class ReservationsController implements Initializable {
         }
 
         public StringProperty value3Property() {
-            return rCustomerId;
+            return rRoomId;
         }
 
         public void setValue3(String value3) {
