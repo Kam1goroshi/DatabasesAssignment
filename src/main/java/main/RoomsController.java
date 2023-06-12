@@ -194,7 +194,7 @@ public class RoomsController implements Initializable {
     @FXML
     private void handleDeleteButtonAction(ActionEvent event) {
         DataModel selectedData = roomsTable.getSelectionModel().getSelectedItem();
-
+        roomsAgent.deleteRoom(selectedData.getRoomID());
         if (selectedData != null) {
             data.remove(selectedData);
         }
